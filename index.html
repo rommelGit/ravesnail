@@ -19,7 +19,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      overflow: hidden; /* Ograniczenie ruchu elementów */
+      overflow: hidden;
       z-index: 1;
       display: flex;
       justify-content: center;
@@ -41,7 +41,7 @@
       content: '';
       position: absolute;
       width: 100%;
-      height: calc(100% - 50px); /* Ograniczamy wysokość gwiazd */
+      height: calc(100% - 50px);
       bottom: 0;
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 0, 40, 0.8) 100%);
       background-image: 
@@ -70,7 +70,7 @@
         radial-gradient(circle at 95% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
         radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
         radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
-      background-size: 80% 80%; /* Dopasowanie tła do gór */
+      background-size: 80% 80%;
       opacity: 0.6;
       transition: opacity 1s ease-in-out;
     }
@@ -97,15 +97,14 @@
       position: fixed;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%);
-      width: 80%; /* Gory na 80% szerokości */
+      width: 80%; /* Stała szerokość 80% */
       height: 200px; /* Zmniejszona wysokość dla telefonów */
       z-index: -1; /* Niższy priorytet przed animacją */
       margin: 0;
       padding: 0;
       overflow: hidden;
       opacity: 0; /* Ukryte na starcie */
-      /* Tymczasowo usunięte scale(1.2) */
+      transform: translateX(-50%) scale(1.2); /* Wyśrodkowanie i powiększenie */
     }
 
     #mountain-container img {
@@ -155,8 +154,8 @@
     }
 
     @keyframes slideUp {
-      0% { transform: translateY(100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; z-index: 1; } /* Zwiększenie z-index po animacji */
+      0% { transform: translateX(-50%) translateY(100%); opacity: 0; }
+      100% { transform: translateX(-50%) translateY(0); opacity: 1; z-index: 1; bottom: 0; } /* Wyśrodkowanie i przyklejenie do dołu */
     }
 
     @keyframes starTwinkle {
@@ -191,6 +190,7 @@
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
         height: 200px; /* Zachowana zmniejszona wysokość dla telefonów */
+        width: 80%; /* Stała szerokość na telefonie */
       }
     }
 
@@ -199,6 +199,7 @@
       .play-button { padding: 12px 24px; font-size: 18px; }
       #mountain-container {
         height: 300px; /* Zmniejszona wysokość dla desktopów */
+        width: 80%; /* Stała szerokość na komputerze */
       }
     }
   </style>
@@ -226,10 +227,10 @@
     let isPlaying = false;
 
     playButton.addEventListener('click', () => {
-      console.log('Button clicked'); // Debug log
+      console.log('Button clicked');
       if (!isPlaying) {
         audioElement.play().then(() => {
-          console.log('Audio started'); // Dodatkowy log
+          console.log('Audio started');
           isPlaying = true;
           playButton.classList.add('fade-out');
           background.classList.add('animate');
