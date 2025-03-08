@@ -41,7 +41,7 @@
       content: '';
       position: absolute;
       width: 100%;
-      height: calc(100% - 50px);
+      height: calc(100% - 50px); /* Ograniczamy wysokość gwiazd, aby nie nachodziły na góry */
       bottom: 0;
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 0, 40, 0.8) 100%);
       background-image: 
@@ -70,7 +70,7 @@
         radial-gradient(circle at 95% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
         radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
         radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
-      background-size: 80% 80%;
+      background-size: 100% 100%;
       opacity: 0.6;
       transition: opacity 1s ease-in-out;
     }
@@ -96,24 +96,23 @@
     #mountain-container {
       position: fixed;
       bottom: 0;
-      left: 50%;
-      width: 80%; /* Stała szerokość 80% */
-      height: 200px; /* Zmniejszona wysokość dla telefonów */
-      z-index: -1; /* Niższy priorytet przed animacją */
+      left: 0;
+      width: 100%;
+      height: 650px; /* Zwiększona wysokość o 50px, aby pokazać czubek gór */
+      z-index: 2;
       margin: 0;
       padding: 0;
       overflow: hidden;
-      opacity: 0; /* Ukryte na starcie */
-      transform: translateX(-50%) scale(1.2); /* Wyśrodkowanie i powiększenie */
+      opacity: 0; /* Ukryte na start */
     }
 
     #mountain-container img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Zastąpione contain dla lepszego skalowania */
+      object-fit: cover; /* Wypełnienie przestrzeni, zachowując proporcje */
       display: block;
       position: absolute;
-      bottom: 0;
+      bottom: 0; /* Przyklejone do dołu */
     }
 
     .slide-up {
@@ -140,7 +139,7 @@
       border: 2px solid #ff69b4;
       border-radius: 8px;
       cursor: pointer;
-      z-index: 100; /* Wyższy priorytet */
+      z-index: 10;
       transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -154,8 +153,8 @@
     }
 
     @keyframes slideUp {
-      0% { transform: translateX(-50%) translateY(100%); opacity: 0; }
-      100% { transform: translateX(-50%) translateY(0); opacity: 1; z-index: 1; bottom: 0; } /* Wyśrodkowanie i przyklejenie do dołu */
+      0% { transform: translateY(100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
     @keyframes starTwinkle {
@@ -188,19 +187,11 @@
     @media (max-width: 768px) {
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
-      #mountain-container {
-        height: 200px; /* Zachowana zmniejszona wysokość dla telefonów */
-        width: 80%; /* Stała szerokość na telefonie */
-      }
     }
 
     @media (min-width: 769px) {
       .snail { max-width: 50%; }
       .play-button { padding: 12px 24px; font-size: 18px; }
-      #mountain-container {
-        height: 300px; /* Zmniejszona wysokość dla desktopów */
-        width: 80%; /* Stała szerokość na komputerze */
-      }
     }
   </style>
 </head>
@@ -227,16 +218,16 @@
     let isPlaying = false;
 
     playButton.addEventListener('click', () => {
-      console.log('Button clicked');
       if (!isPlaying) {
         audioElement.play().then(() => {
-          console.log('Audio started');
           isPlaying = true;
           playButton.classList.add('fade-out');
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
-            // Pokazujemy góry po kliknięciu
+            // Najpierw pokazujemy góry
+            mountainContainer.style.opacity = '0';
+            mountainContainer.style.display = 'block';
             mountainContainer.classList.add('slide-up');
             // Po 1 sekundzie pokazujemy ślimaka
             setTimeout(() => {
@@ -258,6 +249,8 @@
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
+            mountainContainer.style.opacity = '0';
+            mountainContainer.style.display = 'block';
             mountainContainer.classList.add('slide-up');
             setTimeout(() => {
               snail.style.display = 'block';
