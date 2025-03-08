@@ -19,7 +19,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      overflow: hidden;
+      overflow: hidden; /* Ograniczenie ruchu elementów */
       z-index: 1;
       display: flex;
       justify-content: center;
@@ -41,7 +41,7 @@
       content: '';
       position: absolute;
       width: 100%;
-      height: calc(100% - 50px); /* Ograniczamy wysokość gwiazd, aby nie nachodziły na góry */
+      height: calc(100% - 50px); /* Ograniczamy wysokość gwiazd */
       bottom: 0;
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 0, 40, 0.8) 100%);
       background-image: 
@@ -99,13 +99,13 @@
       left: 50%;
       transform: translateX(-50%);
       width: 80%; /* Gory na 80% szerokości */
-      height: 250px; /* Zmniejszona wysokość dla telefonów */
-      z-index: 1; /* Niższy priorytet niż przycisk */
+      height: 200px; /* Zmniejszona wysokość dla telefonów */
+      z-index: -1; /* Niższy priorytet przed animacją */
       margin: 0;
       padding: 0;
       overflow: hidden;
       opacity: 0; /* Ukryte na starcie */
-      transform: scale(1.2); /* Powiększenie gór */
+      /* Tymczasowo usunięte scale(1.2) */
     }
 
     #mountain-container img {
@@ -156,7 +156,7 @@
 
     @keyframes slideUp {
       0% { transform: translateY(100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(0); opacity: 1; z-index: 1; } /* Zwiększenie z-index po animacji */
     }
 
     @keyframes starTwinkle {
@@ -190,7 +190,7 @@
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
-        height: 250px; /* Zachowana zmniejszona wysokość dla telefonów */
+        height: 200px; /* Zachowana zmniejszona wysokość dla telefonów */
       }
     }
 
@@ -198,7 +198,7 @@
       .snail { max-width: 50%; }
       .play-button { padding: 12px 24px; font-size: 18px; }
       #mountain-container {
-        height: 400px; /* Zmniejszona wysokość dla desktopów */
+        height: 300px; /* Zmniejszona wysokość dla desktopów */
       }
     }
   </style>
@@ -229,6 +229,7 @@
       console.log('Button clicked'); // Debug log
       if (!isPlaying) {
         audioElement.play().then(() => {
+          console.log('Audio started'); // Dodatkowy log
           isPlaying = true;
           playButton.classList.add('fade-out');
           background.classList.add('animate');
