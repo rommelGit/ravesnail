@@ -70,7 +70,7 @@
         radial-gradient(circle at 95% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
         radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
         radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
-      background-size: 100% 100%;
+      background-size: 80% 80%; /* Dopasowanie tła do gór */
       opacity: 0.6;
       transition: opacity 1s ease-in-out;
     }
@@ -96,23 +96,25 @@
     #mountain-container {
       position: fixed;
       bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 650px; /* Wysokość dla ekranów desktopowych */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%; /* Gory na 80% szerokości */
+      height: 400px; /* Stała wysokość dla telefonów */
       z-index: 2;
       margin: 0;
       padding: 0;
       overflow: hidden;
-      opacity: 0; /* Ukryte na start */
+      opacity: 0; /* Ukryte na starcie */
+      transform: scale(1.2); /* Powiększenie gór */
     }
 
     #mountain-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Wypełnienie przestrzeni, zachowując proporcje */
+      object-fit: contain; /* Zastąpione contain dla lepszego skalowania */
       display: block;
       position: absolute;
-      bottom: 0; /* Przyklejone do dołu */
+      bottom: 0;
     }
 
     .slide-up {
@@ -139,7 +141,7 @@
       border: 2px solid #ff69b4;
       border-radius: 8px;
       cursor: pointer;
-      z-index: 10; /* Zwiększony z-index, aby przycisk był na wierzchu */
+      z-index: 100; /* Wyższy priorytet */
       transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -188,13 +190,16 @@
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
-        height: 400px; /* Zmniejszona wysokość na telefonach */
+        height: 400px; /* Zachowana wysokość dla telefonów */
       }
     }
 
     @media (min-width: 769px) {
       .snail { max-width: 50%; }
       .play-button { padding: 12px 24px; font-size: 18px; }
+      #mountain-container {
+        height: 650px; /* Wyższa wysokość na desktopie */
+      }
     }
   </style>
 </head>
@@ -228,7 +233,7 @@
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
-            // Najpierw pokazujemy góry
+            // Pokazujemy góry po kliknięciu
             mountainContainer.style.opacity = '0';
             mountainContainer.style.display = 'block';
             mountainContainer.classList.add('slide-up');
