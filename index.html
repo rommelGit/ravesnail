@@ -190,12 +190,12 @@
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
-        height: 60vh; /* Zwiększamy wysokość na telefonach, aby góry były większe */
+        height: 100vh; /* Zwiększamy wysokość na telefonach do pełnej wysokości ekranu, aby góry były bardzo duże */
       }
       #mountain-container img {
-        object-fit: contain; /* Zmiana na contain, aby lepiej przybliżyć obraz */
-        object-position: bottom center; /* Obraz przyklejony do dołu, ale przesunięty w pionie */
-        transform: translateY(30%); /* Przesuwamy obraz w dół, aby wystawał z samego dołu ekranu */
+        object-fit: cover; /* Zachowujemy cover dla lepszego wypełnienia */
+        object-position: bottom; /* Przykleja obraz do dołu */
+        transform: scale(1.5) translateY(50%); /* Mocniejsze powiększenie i przesunięcie w dół */
       }
     }
 
