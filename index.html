@@ -95,7 +95,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 200px; /* Zwiększona wysokość, aby pomieścić góry w całości */
+      height: 300px; /* Zwiększona wysokość, aby pomieścić góry w całości */
       z-index: 2;
       margin: 0;
       padding: 0;
@@ -106,7 +106,7 @@
     #mountain-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Upewnia się, że obraz wypełnia kontener */
+      object-fit: contain; /* Zmiana na contain, aby obraz się zmieścił w całości */
       display: block;
     }
 
@@ -188,7 +188,7 @@
     </div>
     <img src="assets/sticker.webp" alt="rave snail" class="snail">
     <div id="mountain-container">
-      <img src="assets/asdsadasdasd333333333333.svg" alt="mountains" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+      <img src="assets/asdsadasdasd333333333333.svg" alt="mountains" style="width: 100%; height: 100%; object-fit: contain; display: block;">
     </div>
   </div>
   <audio id="rave-audio" src="assets/ssstik.io_1741382549946.mp3" loop style="display: none;"></audio>
@@ -215,9 +215,9 @@
               snail.style.display = 'block';
               snail.style.opacity = '0';
               snail.classList.add('fade-in');
-              mountainContainer.style.opacity = '0'; // Ustawiamy początkową przezroczystość
-              mountainContainer.style.display = 'block'; // Wyświetlamy kontener
-              mountainContainer.classList.add('fade-in'); // Dodajemy animację fade-in
+              mountainContainer.style.opacity = '0';
+              mountainContainer.style.display = 'block';
+              mountainContainer.classList.add('fade-in');
               setTimeout(() => {
                 snail.classList.remove('fade-in');
                 snail.style.opacity = '1';
