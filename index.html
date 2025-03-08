@@ -78,7 +78,10 @@
     }
 
     .snail {
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       max-width: 80%;
       height: auto;
       z-index: 3;
@@ -92,11 +95,12 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 100px; /* Ustalona wysokość, aby góry były widoczne na dole */
+      height: 200px; /* Zwiększona wysokość, aby pomieścić góry w całości */
       z-index: 2;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Zapobiega wysuwaniu się poza dolną krawędź */
+      overflow: hidden;
+      opacity: 0; /* Ukryte na start */
     }
 
     #mountain-container img {
@@ -195,6 +199,7 @@
     const playButton = document.getElementById('playButton');
     const background = document.querySelector('.background-waves');
     const snail = document.querySelector('.snail');
+    const mountainContainer = document.getElementById('mountain-container');
     let hue = 0;
     let isPlaying = false;
 
@@ -210,9 +215,14 @@
               snail.style.display = 'block';
               snail.style.opacity = '0';
               snail.classList.add('fade-in');
+              mountainContainer.style.opacity = '0'; // Ustawiamy początkową przezroczystość
+              mountainContainer.style.display = 'block'; // Wyświetlamy kontener
+              mountainContainer.classList.add('fade-in'); // Dodajemy animację fade-in
               setTimeout(() => {
                 snail.classList.remove('fade-in');
                 snail.style.opacity = '1';
+                mountainContainer.classList.remove('fade-in');
+                mountainContainer.style.opacity = '1';
                 startAnimation();
               }, 8000);
             }, 100);
@@ -229,9 +239,14 @@
               snail.style.display = 'block';
               snail.style.opacity = '0';
               snail.classList.add('fade-in');
+              mountainContainer.style.opacity = '0';
+              mountainContainer.style.display = 'block';
+              mountainContainer.classList.add('fade-in');
               setTimeout(() => {
                 snail.classList.remove('fade-in');
                 snail.style.opacity = '1';
+                mountainContainer.classList.remove('fade-in');
+                mountainContainer.style.opacity = '1';
                 startAnimation();
               }, 8000);
             }, 100);
