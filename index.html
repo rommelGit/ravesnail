@@ -109,8 +109,7 @@
     #mountain-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Domyślnie cover */
-      object-position: bottom; /* Przykleja obraz do dołu */
+      object-fit: cover;
       display: block;
       position: absolute;
       bottom: 0;
@@ -190,12 +189,7 @@
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
-        height: 60vh; /* Zwiększamy wysokość na telefonach, aby góry były większe */
-      }
-      #mountain-container img {
-        object-fit: contain; /* Zmiana na contain, aby lepiej przybliżyć obraz */
-        object-position: bottom center; /* Obraz przyklejony do dołu, ale przesunięty w pionie */
-        transform: translateY(30%); /* Przesuwamy obraz w dół, aby wystawał z samego dołu ekranu */
+        height: 40vh; /* Zmniejszamy wysokość na telefonach, aby góry były na dole */
       }
     }
 
