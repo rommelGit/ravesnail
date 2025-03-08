@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rave Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #0a0a0a;
+      height: 100vh;
+    }
+
+    #rave-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .background-waves {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .background-waves::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 50px); /* Ograniczamy wysokość gwiazd, aby nie nachodziły na góry */
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 0, 40, 0.8) 100%);
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.25) 2px, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 30% 90%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 40% 10%, rgba(255, 255, 255, 0.25) 2px, transparent 2px),
+        radial-gradient(circle at 60% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 85% 35%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 15% 85%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 65% 25%, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 45% 65%, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 35% 45%, rgba(255, 255, 255, 0.22) 2px, transparent 2px),
+        radial-gradient(circle at 95% 55%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 5% 5%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 55% 85%, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 25% 15%, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 85% 65%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 45% 35%, rgba(255, 255, 255, 0.22) 2px, transparent 2px),
+        radial-gradient(circle at 95% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+      background-size: 100% 100%;
+      opacity: 0.6;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .background-waves.animate::before {
+      opacity: 1;
+      animation: starTwinkle 6s infinite ease-in-out;
+    }
+
+    .snail {
+      position: relative;
+      max-width: 80%;
+      height: auto;
+      z-index: 3;
+      transition: transform 0.05s ease, filter 0.3s ease;
+      display: none;
+      filter: brightness(1.2);
+    }
+
+    #mountain-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .fade-in {
+      animation: fadeInAndScale 8s ease-in-out forwards;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 12px 24px;
+      font-size: 18px;
+      color: #ffffff;
+      background: transparent;
+      border: 2px solid #ff69b4;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .play-button:hover {
+      background: #ff69b4;
+      color: #000000;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+      transform: scale(1.05) translate(-50%, -50%);
+    }
+
+    @keyframes starTwinkle {
+      0% { opacity: 0.7; transform: translate(0, 0) scale(1); }
+      25% { opacity: 1; transform: translate(5px, -5px) scale(1.05); }
+      50% { opacity: 0.8; transform: translate(-5px, 5px) scale(1); }
+      75% { opacity: 1; transform: translate(3px, -3px) scale(1.03); }
+      100% { opacity: 0.7; transform: translate(0, 0) scale(1); }
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(-5px, -5px); }
+      60% { transform: translate(5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes fadeInAndScale {
+      0% { opacity: 0; transform: scale(0.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .snail { max-width: 70%; }
+      .play-button { padding: 10px 20px; font-size: 16px; }
+    }
+
+    @media (min-width: 769px) {
+      .snail { max-width: 50%; }
+      .play-button { padding: 12px 24px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="rave-wrapper">
+    <div class="background-waves">
+      <button id="playButton" class="play-button">Launch Rave</button>
+    </div>
+    <img src="https://twrb11.webwave.dev/lib/twrb11/sticker-m7z9atwy.webp" alt="rave snail" class="snail">
+    <div id="mountain-container">
+      <img src="https://twrb11.webwave.dev/lib/twrb11/asdsadasdasd333333333333-m7zmwr5m.svg" alt="mountains" style="width: 100%; height: auto; object-fit: fill; display: block;">
+    </div>
+  </div>
+  <audio id="rave-audio" src="https://twrb11.webwave.dev/lib/twrb11/ssstikio_1741382549946-m7zb2u12.mp3" loop style="display: none;"></audio>
+
+  <script>
+    const audioElement = new Audio('https://twrb11.webwave.dev/lib/twrb11/ssstikio_1741382549946-m7zb2u12.mp3');
+    audioElement.loop = true;
+    const playButton = document.getElementById('playButton');
+    const background = document.querySelector('.background-waves');
+    const snail = document.querySelector('.snail');
+    let hue = 0;
+    let isPlaying = false;
+
+    playButton.addEventListener('click', () => {
+      if (!isPlaying) {
+        audioElement.play().then(() => {
+          isPlaying = true;
+          playButton.classList.add('fade-out');
+          background.classList.add('animate');
+          setTimeout(() => {
+            playButton.style.display = 'none';
+            setTimeout(() => {
+              snail.style.display = 'block';
+              snail.style.opacity = '0';
+              snail.classList.add('fade-in');
+              setTimeout(() => {
+                snail.classList.remove('fade-in');
+                snail.style.opacity = '1';
+                startAnimation();
+              }, 8000);
+            }, 100);
+          }, 500);
+        }).catch(error => {
+          console.error('Error playing audio:', error);
+          alert('Nie udało się odtworzyć muzyki. Sprawdź konsolę.');
+          isPlaying = false;
+          playButton.classList.add('fade-out');
+          background.classList.add('animate');
+          setTimeout(() => {
+            playButton.style.display = 'none';
+            setTimeout(() => {
+              snail.style.display = 'block';
+              snail.style.opacity = '0';
+              snail.classList.add('fade-in');
+              setTimeout(() => {
+                snail.classList.remove('fade-in');
+                snail.style.opacity = '1';
+                startAnimation();
+              }, 8000);
+            }, 100);
+          }, 500);
+        });
+      }
+    });
+
+    snail.addEventListener('click', () => {
+      hue = (hue + 90) % 360;
+      snail.style.filter = `hue-rotate(${hue}deg) drop-shadow(0 0 15px rgba(255, 105, 180, 0.8))`;
+    });
+
+    snail.addEventListener('mousemove', (e) => {
+      const x = e.offsetX / snail.offsetWidth - 0.5;
+      const y = e.offsetY / snail.offsetHeight - 0.5;
+      snail.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+    });
+
+    snail.addEventListener('mouseleave', () => {
+      snail.style.transform = 'translate(0, 0)';
+    });
+
+    function startAnimation() {
+      let time = 0;
+      setInterval(() => {
+        if (isPlaying) {
+          time += 0.1;
+          const snailScale = 1 + Math.sin(time * 3) * 0.1;
+          snail.style.transform = `scale(${snailScale}) translate(0, 0)`;
+          if (Math.random() > 0.95) {
+            snail.style.animation = 'glitch 0.1s';
+            setTimeout(() => snail.style.animation = '', 100);
+          }
+        }
+      }, 30);
+    }
+  </script>
+</body>
+</html>
