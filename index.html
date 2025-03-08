@@ -65,7 +65,7 @@
         radial-gradient(circle at 85% 65%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
         radial-gradient(circle at 45% 35%, rgba(255, 255, 255, 0.22) 2px, transparent 2px),
         radial-gradient(circle at 95% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-        radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 15% 55%, rgba(255, 抵押, 255, 0.18) 1.5px, transparent 1.5px),
         radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
       background-size: 100% 100%;
       opacity: 0.6;
@@ -92,9 +92,18 @@
       bottom: 0;
       left: 0;
       width: 100%;
+      height: 100px; /* Ustalona wysokość, aby góry były widoczne na dole */
       z-index: 2;
       margin: 0;
       padding: 0;
+      overflow: hidden; /* Zapobiega wysuwaniu się poza dolną krawędź */
+    }
+
+    #mountain-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Upewnia się, że obraz wypełnia kontener */
+      display: block;
     }
 
     .fade-in {
@@ -173,15 +182,15 @@
     <div class="background-waves">
       <button id="playButton" class="play-button">Launch Rave</button>
     </div>
-    <img src="https://twrb11.webwave.dev/lib/twrb11/sticker-m7z9atwy.webp" alt="rave snail" class="snail">
+    <img src="assets/sticker-m7z9atwy.webp" alt="rave snail" class="snail">
     <div id="mountain-container">
-      <img src="https://twrb11.webwave.dev/lib/twrb11/asdsadasdasd333333333333-m7zmwr5m.svg" alt="mountains" style="width: 100%; height: auto; object-fit: fill; display: block;">
+      <img src="assets/asdsadasdasd333333333333-m7zmwr5m.svg" alt="mountains" style="width: 100%; height: 100%; object-fit: cover; display: block;">
     </div>
   </div>
-  <audio id="rave-audio" src="https://twrb11.webwave.dev/lib/twrb11/ssstikio_1741382549946-m7zb2u12.mp3" loop style="display: none;"></audio>
+  <audio id="rave-audio" src="assets/ssstikio_1741382549946-m7zb2u12.mp3" loop style="display: none;"></audio>
 
   <script>
-    const audioElement = new Audio('https://twrb11.webwave.dev/lib/twrb11/ssstikio_1741382549946-m7zb2u12.mp3');
+    const audioElement = new Audio('assets/ssstikio_1741382549946-m7zb2u12.mp3');
     audioElement.loop = true;
     const playButton = document.getElementById('playButton');
     const background = document.querySelector('.background-waves');
