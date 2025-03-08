@@ -99,8 +99,8 @@
       left: 50%;
       transform: translateX(-50%);
       width: 80%; /* Gory na 80% szerokości */
-      height: 400px; /* Stała wysokość dla telefonów */
-      z-index: 2;
+      height: 250px; /* Zmniejszona wysokość dla telefonów */
+      z-index: 1; /* Niższy priorytet niż przycisk */
       margin: 0;
       padding: 0;
       overflow: hidden;
@@ -190,7 +190,7 @@
       .snail { max-width: 70%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
       #mountain-container {
-        height: 400px; /* Zachowana wysokość dla telefonów */
+        height: 250px; /* Zachowana zmniejszona wysokość dla telefonów */
       }
     }
 
@@ -198,7 +198,7 @@
       .snail { max-width: 50%; }
       .play-button { padding: 12px 24px; font-size: 18px; }
       #mountain-container {
-        height: 650px; /* Wyższa wysokość na desktopie */
+        height: 400px; /* Zmniejszona wysokość dla desktopów */
       }
     }
   </style>
@@ -226,6 +226,7 @@
     let isPlaying = false;
 
     playButton.addEventListener('click', () => {
+      console.log('Button clicked'); // Debug log
       if (!isPlaying) {
         audioElement.play().then(() => {
           isPlaying = true;
@@ -234,8 +235,6 @@
           setTimeout(() => {
             playButton.style.display = 'none';
             // Pokazujemy góry po kliknięciu
-            mountainContainer.style.opacity = '0';
-            mountainContainer.style.display = 'block';
             mountainContainer.classList.add('slide-up');
             // Po 1 sekundzie pokazujemy ślimaka
             setTimeout(() => {
@@ -257,8 +256,6 @@
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
-            mountainContainer.style.opacity = '0';
-            mountainContainer.style.display = 'block';
             mountainContainer.classList.add('slide-up');
             setTimeout(() => {
               snail.style.display = 'block';
