@@ -70,54 +70,70 @@
         radial-gradient(circle at 15% 55%, rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px),
         radial-gradient(circle at 65% 95%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
       background-size: 100% 100%;
-      opacity: 0.6;
+      opacity: 1; /* Ustawione na 1, aby tło było widoczne */
+      z-index: 1;
       transition: opacity 1s ease-in-out;
     }
 
     .background-waves.animate::before {
-      opacity: 1;
       animation: starTwinkle 6s infinite ease-in-out;
     }
 
+    /* Siatka 3D z efektem perspektywy */
     .background-waves::after {
       content: '';
       position: absolute;
       width: 100%;
       height: 100%;
+      bottom: 0;
       background: 
-        linear-gradient(to bottom, transparent 70%, rgba(0, 0, 0, 0.8) 100%),
+        linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9) 100%),
         repeating-linear-gradient(
           0deg,
-          rgba(255, 105, 180, 0.3) 0,
-          rgba(255, 105, 180, 0.3) 1px,
+          rgba(255, 105, 180, 0.5) 0,
+          rgba(255, 105, 180, 0.5) 1px,
           transparent 1px,
           transparent 20px
         ),
         repeating-linear-gradient(
           90deg,
-          rgba(255, 105, 180, 0.3) 0,
-          rgba(255, 105, 180, 0.3) 1px,
+          rgba(255, 105, 180, 0.5) 0,
+          rgba(255, 105, 180, 0.5) 1px,
           transparent 1px,
-          transparent 20px
+          transparent 40px
         );
       background-size: 100% 100%, auto, auto;
+      transform: perspective(500px) rotateX(60deg);
+      transform-origin: bottom;
       z-index: 2;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
 
+    .background-waves.animate::after {
+      opacity: 1;
+    }
+
+    /* Góry low-poly w tle */
     .mountains {
       position: absolute;
       width: 100%;
-      height: 40vh;
-      bottom: 0;
+      height: 50vh;
+      bottom: 20%;
       left: 0;
       z-index: 3;
-      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .mountains.animate {
+      opacity: 1;
     }
 
     .mountain {
       position: absolute;
       bottom: 0;
-      width: 10%;
+      width: 15%;
       height: 100%;
       border: 2px solid #ff69b4;
       clip-path: polygon(0 100%, 50% 50%, 100% 100%);
@@ -132,10 +148,10 @@
 
     .snail {
       position: absolute;
-      top: 50%;
+      bottom: 5%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      max-width: 80%;
+      transform: translateX(-50%) scale(1);
+      max-width: 40%;
       height: auto;
       z-index: 4;
       transition: transform 0.05s ease, filter 0.3s ease;
@@ -194,8 +210,8 @@
     }
 
     @keyframes fadeInAndScale {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      0% { opacity: 0; transform: translateX(-50%) scale(0.3); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1); }
     }
 
     @keyframes fadeOut {
@@ -204,15 +220,15 @@
     }
 
     @media (max-width: 768px) {
-      .snail { max-width: 70%; }
+      .snail { max-width: 60%; bottom: 3%; }
       .play-button { padding: 10px 20px; font-size: 16px; }
-      .mountains { height: 35vh; }
+      .mountains { height: 40vh; bottom: 15%; }
     }
 
     @media (min-width: 769px) {
-      .snail { max-width: 50%; }
+      .snail { max-width: 40%; bottom: 5%; }
       .play-button { padding: 12px 24px; font-size: 18px; }
-      .mountains { height: 40vh; }
+      .mountains { height: 50vh; bottom: 20%; }
     }
   </style>
 </head>
@@ -250,10 +266,8 @@
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
-            mountains.style.opacity = '0';
-            mountains.style.display = 'block';
+            mountains.classList.add('animate');
             setTimeout(() => {
-              mountains.style.opacity = '1';
               snail.style.display = 'block';
               snail.style.opacity = '0';
               snail.classList.add('fade-in');
@@ -272,10 +286,8 @@
           background.classList.add('animate');
           setTimeout(() => {
             playButton.style.display = 'none';
-            mountains.style.opacity = '0';
-            mountains.style.display = 'block';
+            mountains.classList.add('animate');
             setTimeout(() => {
-              mountains.style.opacity = '1';
               snail.style.display = 'block';
               snail.style.opacity = '0';
               snail.classList.add('fade-in');
@@ -298,11 +310,11 @@
     snail.addEventListener('mousemove', (e) => {
       const x = e.offsetX / snail.offsetWidth - 0.5;
       const y = e.offsetY / snail.offsetHeight - 0.5;
-      snail.style.transform = `translate(${x * 20}px, ${y * 20}px) translate(-50%, -50%)`;
+      snail.style.transform = `translate(${x * 20}px, ${y * 20}px) translateX(-50%)`;
     });
 
     snail.addEventListener('mouseleave', () => {
-      snail.style.transform = 'translate(-50%, -50%)';
+      snail.style.transform = 'translateX(-50%)';
     });
 
     function startAnimation() {
@@ -311,7 +323,7 @@
         if (isPlaying) {
           time += 0.1;
           const snailScale = 1 + Math.sin(time * 3) * 0.1;
-          snail.style.transform = `scale(${snailScale}) translate(-50%, -50%)`;
+          snail.style.transform = `scale(${snailScale}) translateX(-50%)`;
           if (Math.random() > 0.95) {
             snail.style.animation = 'glitch 0.1s';
             setTimeout(() => snail.style.animation = '', 100);
